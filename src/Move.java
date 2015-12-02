@@ -26,16 +26,17 @@ public class Move {
 
     public String getSAN() {
         String path = "";
+        int ys = to.getY() + 1;
         if (isCapture) {
-            path = convertX(from) + "x" + convertX(to) + to.getY();
+            path = convertX(from) + "x" + convertX(to) + ys;
             return path;
         } else {
-            path = convertX(to) + to.getY();
+            path = convertX(to) + ys;
             return path;
         }
     }
 
     private String convertX(Square beConvert) {
-        return String.valueOf((char)(beConvert.getX()+'a'-1));
+        return String.valueOf((char)(beConvert.getX()+'a'));
     }
 }

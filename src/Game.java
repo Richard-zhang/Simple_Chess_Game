@@ -2,8 +2,9 @@
  * Created by R on 11/30/15.
  */
 public class Game {
+    public int counter=0;
     private int index;
-    private Move[] moves = new Move[150];
+    private Move[] moves = new Move[60];
     private Color currentPlayer = Color.WHITE;
     private Board board;
     private int whiteChess = 7;
@@ -31,6 +32,7 @@ public class Game {
     }
 
     public void applyMove(Move move){
+        counter++;
         moves[index] = move;
         index++;
 
@@ -93,6 +95,9 @@ public class Game {
 
     public boolean isFinished() {
         Move winMove = getLastMove();
+        if (winMove == null)
+            return false;
+
         if(winMove.getTo().getY() == 0 || winMove.getTo().getY()== 7) {
             return true;
         } else if (whiteChess == 0 || blackChess == 0) {
@@ -271,6 +276,10 @@ public class Game {
 
     public boolean passingPawn() {
         Move lastMove = getLastMove();
+
+        if(getLastMove() == null)
+            return false;
+
         return (lastMove.getFrom().getY() == 6 && lastMove.getTo().getY() == 4)
                 || ((lastMove.getFrom().getY() == 1) && lastMove.getTo().getY() == 3);
 

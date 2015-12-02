@@ -22,7 +22,7 @@ public class PawnRace {
 
         one = new Player(game, board, Color.WHITE, isComputerPlayer);
 
-        isComputerPlayer = (args[0].equals("P")) ? false : true;
+        isComputerPlayer = (args[1].equals("P")) ? false : true;
         two = new Player(game, board, Color.BLACK, isComputerPlayer);
 
         one.setOpponent(two);
@@ -33,6 +33,10 @@ public class PawnRace {
         while(true) {
             if(game.getCurrentPlayer() == one.getColor()){
                 if(one.isComputerPlayer()){
+                    if (game.isFinished())
+                        break;
+                    one.makeMove();
+                    board.display();
 
                 } else {
                     do {
@@ -40,7 +44,8 @@ public class PawnRace {
                         order = in.nextLine();
                     } while(game.parseMove(order) == null);
 
-                    game.applyMove(game.parseMove(order));
+                    Move mmm = game.parseMove(order);
+                    game.applyMove(mmm);
 
                     if (game.isFinished())
                         break;
@@ -48,7 +53,10 @@ public class PawnRace {
                 }
             } else {
                 if(two.isComputerPlayer()) {
-
+                    if(game.isFinished())
+                        break;
+                    two.makeMove();
+                    board.display();
                 } else {
                     do {
                         System.out.println("Input Move Black");
@@ -74,7 +82,7 @@ public class PawnRace {
             System.out.println("Tie");
         }
 
-
+        System.out.println(game.counter);
 
 
 
