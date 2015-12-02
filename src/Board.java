@@ -4,6 +4,8 @@
 public class Board {
     private Square[][] initBoard = new Square[8][8];
 
+
+
     public Board(char whiteGap, char blackGap) {
         int white = whiteGap - 'A';
         int black = blackGap - 'A';
@@ -36,9 +38,8 @@ public class Board {
 
     void applyMove(Move move) {
         Square ori = getSquare(move.getFrom().getX(),move.getFrom().getY());
-        initBoard[ori.getY()][ori.getX()].setOccupied(Color.NONE);
         initBoard[move.getTo().getY()][move.getTo().getX()].setOccupied(ori.occupiedBy());
-
+        initBoard[ori.getY()][ori.getX()].setOccupied(Color.NONE);
     }
 
     void unapplyMove(Move move) {
@@ -51,16 +52,19 @@ public class Board {
         String dis = "";
         for(int i = 7; i >= 0; i--)
             for(int r = 0; r < 8; r++) {
+                int q = i + 1;
                 if (r==7)
-                    dis = dis + " " + initBoard[i][r].occupiedBy().getProperty() + "  " + i + "\n";
+                    dis = dis + " " + initBoard[i][r].occupiedBy().getProperty() + "  " + q + "\n";
                 else if (r==0)
-                    dis = dis + i + "  " + initBoard[i][r].occupiedBy().getProperty();
+                    dis = dis + q + "  " + initBoard[i][r].occupiedBy().getProperty();
                 else
                     dis = dis + " " + initBoard[i][r].occupiedBy().getProperty();
             }
 
         String letters = "   A B C D E F G H  ";
-        System.out.println(letters + "\n\n" + dis + "\n" + letters);
+        System.out.println(letters + "\n" + dis  + letters);
 
     }
+
+
 }
