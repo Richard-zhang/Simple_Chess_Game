@@ -5,8 +5,13 @@ public class Test {
     public static void main(String[] args) {
         Board board = new Board('A','H');
         Game game = new Game(board);
+        Player one;
+        Player two;
 
-        System.out.println(game.getLocation("b8").occupiedBy());
+
+
+
+
 
 
     }

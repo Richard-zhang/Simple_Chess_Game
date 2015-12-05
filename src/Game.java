@@ -103,21 +103,142 @@ public class Game {
         } else if (whiteChess == 0 || blackChess == 0) {
             return true;
         } else {
+            //return isBlocked;
             return block(currentPlayer);
         }
 
 
     }
 
-    private boolean block(Color checked) {
-        for (int i = 0; i < 8; i++) {
-            for (int r = 1; r < 7; r++) {
-                if (board.getSquare(i, r).occupiedBy() != checked)
-                    continue;
-                else if (!isBlocked(board.getSquare(i, r)))
-                    return false;
-            }
+    private boolean block(Color color) {
+
+        if(color == Color.BLACK){
+            for(int i = 0; i < 8; i++)
+                for(int q = 1; q < 7; q++){
+                    if(board.getSquare(i,q).occupiedBy()==Color.BLACK){
+                        //move
+                        if(board.getSquare(i,q-1).occupiedBy() == Color.NONE){
+                            return false;
+                        }
+
+                        if(q==6 && board.getSquare(i,q-1).occupiedBy() == Color.NONE
+                                && board.getSquare(i,q-2).occupiedBy() == Color.NONE) {
+                            return false;
+                        }
+
+                        //attack
+                        if(i==0){
+                            if(board.getSquare(1,q-1).occupiedBy() == Color.WHITE){
+                                return false;
+                            } else {
+                                if(passingPawn() && getLastMove().getTo().getX() == 1
+                                        && getLastMove().getTo().getY() == 4) {
+                                    return false;
+                                }
+                            }
+                        } else if (i == 7) {
+                            if(board.getSquare(6,q-1).occupiedBy() == Color.WHITE){
+                                return false;
+                            } else {
+                                if(passingPawn() && getLastMove().getTo().getX() == 6
+                                        && getLastMove().getTo().getY() == 4) {
+                                    return false;
+                                }
+                            }
+                        } else {
+                            if(board.getSquare(i-1,q-1).occupiedBy() == Color.WHITE) {
+                                return false;
+                            }
+
+                            if(board.getSquare(i+1,q-1).occupiedBy() == Color.WHITE) {
+                                return false;
+                            }
+
+                            if(passingPawn() && getLastMove().getTo().getX() == (i-1)
+                                    && getLastMove().getTo().getY() == 4) {
+                                return false;
+                            }
+
+                            if(passingPawn() && getLastMove().getTo().getX() == (i+1)
+                                    && getLastMove().getTo().getY() == 4) {
+                                return false;
+                            }
+
+                        }
+
+
+
+
+
+                    }
+                }
+        } else {
+
+            for(int i = 0; i < 8; i++)
+                for(int q = 1; q < 7; q++){
+                    if(board.getSquare(i,q).occupiedBy()==Color.WHITE){
+                        //move
+                        if(board.getSquare(i,q+1).occupiedBy() == Color.NONE){
+                            return false;
+                        }
+
+                        if(q==1 && board.getSquare(i,q+1).occupiedBy() == Color.NONE
+                                && board.getSquare(i,q+2).occupiedBy() == Color.NONE) {
+                            return false;
+
+                        }
+
+                        //attack
+                        if(i==0){
+                            if(board.getSquare(1,q+1).occupiedBy() == Color.BLACK){
+                                return false;
+
+                            } else {
+                                if(passingPawn() && getLastMove().getTo().getX() == 1
+                                        && getLastMove().getTo().getY() == 3) {
+                                    return false;
+                                }
+                            }
+                        } else if (i == 7) {
+                            if(board.getSquare(6,q+1).occupiedBy() == Color.BLACK){
+                                return false;
+                            } else {
+                                if(passingPawn() && getLastMove().getTo().getX() == 6
+                                        && getLastMove().getTo().getY() == 3) {
+                                    return false;
+                                }
+                            }
+                        } else {
+                            if(board.getSquare(i+1,q+1).occupiedBy() == Color.BLACK) {
+                                return false;
+                            }
+
+                            if(board.getSquare(i-1,q+1).occupiedBy() == Color.BLACK) {
+                                return false;
+                            }
+
+                            if(passingPawn() && getLastMove().getTo().getX() == (i-1)
+                                    && getLastMove().getTo().getY() == 3) {
+                                return false;
+
+                            }
+
+                            if(passingPawn() && getLastMove().getTo().getX() == (i+1)
+                                    && getLastMove().getTo().getY() == 4) {
+                                return false;
+                            }
+
+                        }
+
+
+
+
+
+                    }
+                }
+
         }
+
         return true;
     }
 
@@ -126,7 +247,7 @@ public class Game {
 
 
 
-
+    /*
     private boolean isBlocked(Square x) {
         int xcor = x.getX();
         int ycor = x.getY();
@@ -168,6 +289,8 @@ public class Game {
 
         return false;
     }
+
+    */
 
     Color getGameResult() {
         if (isFinished()) {

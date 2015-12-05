@@ -43,7 +43,6 @@ public class PawnRace {
                         System.out.println("Input Move White");
                         order = in.nextLine();
                     } while(game.parseMove(order) == null);
-
                     Move mmm = game.parseMove(order);
                     game.applyMove(mmm);
 
