@@ -5,7 +5,6 @@ public class Board {
     private Square[][] initBoard = new Square[8][8];
 
 
-
     public Board(char whiteGap, char blackGap) {
         int white = whiteGap - 'A';
         int black = blackGap - 'A';

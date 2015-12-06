@@ -4,7 +4,7 @@
 import java.util.Random;
 
 public class Player {
-    private Game game;
+    public Game game;
     private Board board;
     private Color color;
     private Boolean isComputerPlayer;
@@ -18,6 +18,8 @@ public class Player {
         this.isComputerPlayer = isComputerPlayer;
 
     }
+
+
 
     public void setOpponent(Player opponent) {
         this.opponent = opponent;
@@ -42,6 +44,34 @@ public class Player {
                 }
 
         return pawns;
+    }
+
+    public Square[] getAllOpponentPawns() {
+        Square[] pawns = new Square[game.getPawn(opponent.color)];
+        int count = 0;
+        for (int i = 0; i < 8; i++)
+            for (int r = 0; r < 8; r++)
+                if (board.getSquare(i, r).occupiedBy() == opponent.color) {
+                    pawns[count] = board.getSquare(i, r);
+                    count++;
+                }
+
+        return pawns;
+
+    }
+
+    public Square[] getTrullyAllPawns() {
+        Square[] pawns = new Square[game.getPawn(opponent.color)+game.getPawn(color)];
+        int count = 0;
+        for (int i = 0; i < 8; i++)
+            for (int r = 0; r < 8; r++)
+                if (board.getSquare(i, r).occupiedBy() != Color.NONE) {
+                    pawns[count] = board.getSquare(i, r);
+                    count++;
+                }
+
+        return pawns;
+
     }
 
     public Move[] getAllValidMoves() {
@@ -187,6 +217,9 @@ public class Player {
 
         return moves;
     }
+
+
+
 
 
     public boolean isPassedPawn(Square square) {

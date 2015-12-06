@@ -11,6 +11,14 @@ public class Square {
         this.y = y;
     }
 
+    public int getValue() {
+        if(y > 3){
+            return ((y-4)*2+1)*((y-4)*2+1);
+        } else {
+            return -(Math.abs(y-3)*2+1)*(Math.abs(y-3)*2+1);
+        }
+    }
+
     public void setOccupied(Color occupied) {
         this.occupied = occupied;
     }

@@ -63,16 +63,20 @@ public class Game {
 
     public void unapplyMove() {
         if (getLastMove() == null) {
-
+            return;
         }
 
         if(getLastMove().isCapture() && getLastMove().getTo().occupiedBy() == Color.NONE) {
             if (currentPlayer == Color.BLACK) {
-
-                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()+1).setOccupied(Color.WHITE);
+                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()).setOccupied(Color.NONE);
+                board.getSquare(getLastMove().getFrom().getX(),getLastMove().getFrom().getY()).setOccupied(Color.WHITE);
+                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()+1).setOccupied(Color.BLACK);
+                blackChess++;
             } else {
-
-                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()-1).setOccupied(Color.BLACK);
+                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()).setOccupied(Color.NONE);
+                board.getSquare(getLastMove().getFrom().getX(),getLastMove().getFrom().getY()).setOccupied(Color.BLACK);
+                board.getSquare(getLastMove().getTo().getX(),getLastMove().getTo().getY()-1).setOccupied(Color.WHITE);
+                whiteChess++;
             }
 
         }
@@ -242,57 +246,139 @@ public class Game {
         return true;
     }
 
+    public boolean isBlocked(Square square) {
+            int i = square.getX();
+            int q = square.getY();
+            if(currentPlayer == Color.BLACK){
+                if(board.getSquare(i,q).occupiedBy()==Color.BLACK){
+                            //move
+                            if(board.getSquare(i,q-1).occupiedBy() == Color.NONE){
+                                return false;
+                            }
+
+                            if(q==6 && board.getSquare(i,q-1).occupiedBy() == Color.NONE
+                                    && board.getSquare(i,q-2).occupiedBy() == Color.NONE) {
+                                return false;
+                            }
+
+                            //attack
+                            if(i==0){
+                                if(board.getSquare(1,q-1).occupiedBy() == Color.WHITE){
+                                    return false;
+                                } else {
+                                    if(passingPawn() && getLastMove().getTo().getX() == 1
+                                            && getLastMove().getTo().getY() == 4) {
+                                        return false;
+                                    }
+                                }
+                            } else if (i == 7) {
+                                if(board.getSquare(6,q-1).occupiedBy() == Color.WHITE){
+                                    return false;
+                                } else {
+                                    if(passingPawn() && getLastMove().getTo().getX() == 6
+                                            && getLastMove().getTo().getY() == 4) {
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                if(board.getSquare(i-1,q-1).occupiedBy() == Color.WHITE) {
+                                    return false;
+                                }
+
+                                if(board.getSquare(i+1,q-1).occupiedBy() == Color.WHITE) {
+                                    return false;
+                                }
+
+                                if(passingPawn() && getLastMove().getTo().getX() == (i-1)
+                                        && getLastMove().getTo().getY() == 4) {
+                                    return false;
+                                }
+
+                                if(passingPawn() && getLastMove().getTo().getX() == (i+1)
+                                        && getLastMove().getTo().getY() == 4) {
+                                    return false;
+                                }
+
+                            }
 
 
 
 
 
-    /*
-    private boolean isBlocked(Square x) {
-        int xcor = x.getX();
-        int ycor = x.getY();
+                        }
 
-        if (x.occupiedBy() == Color.NONE)
-            return false;
-        else if (x.occupiedBy() == Color.BLACK) {
-            if (xcor == 0) {
-                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor+1,ycor-1).occupiedBy() == Color.BLACK)
-                    return true;
-            } else if (xcor == 7) {
-                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor-1,ycor-1).occupiedBy() == Color.BLACK)
-                    return true;
             } else {
-                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor-1, ycor-1).occupiedBy() == Color.BLACK
-                            && board.getSquare(xcor+1,ycor-1).occupiedBy() == Color.BLACK)
-                    return true;
+
+
+
+                        if(board.getSquare(i,q).occupiedBy()==Color.WHITE){
+                            //move
+                            if(board.getSquare(i,q+1).occupiedBy() == Color.NONE){
+                                return false;
+                            }
+
+                            if(q==1 && board.getSquare(i,q+1).occupiedBy() == Color.NONE
+                                    && board.getSquare(i,q+2).occupiedBy() == Color.NONE) {
+                                return false;
+
+                            }
+
+                            //attack
+                            if(i==0){
+                                if(board.getSquare(1,q+1).occupiedBy() == Color.BLACK){
+                                    return false;
+
+                                } else {
+                                    if(passingPawn() && getLastMove().getTo().getX() == 1
+                                            && getLastMove().getTo().getY() == 3) {
+                                        return false;
+                                    }
+                                }
+                            } else if (i == 7) {
+                                if(board.getSquare(6,q+1).occupiedBy() == Color.BLACK){
+                                    return false;
+                                } else {
+                                    if(passingPawn() && getLastMove().getTo().getX() == 6
+                                            && getLastMove().getTo().getY() == 3) {
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                if(board.getSquare(i+1,q+1).occupiedBy() == Color.BLACK) {
+                                    return false;
+                                }
+
+                                if(board.getSquare(i-1,q+1).occupiedBy() == Color.BLACK) {
+                                    return false;
+                                }
+
+                                if(passingPawn() && getLastMove().getTo().getX() == (i-1)
+                                        && getLastMove().getTo().getY() == 3) {
+                                    return false;
+
+                                }
+
+                                if(passingPawn() && getLastMove().getTo().getX() == (i+1)
+                                        && getLastMove().getTo().getY() == 4) {
+                                    return false;
+                                }
+
+                            }
+
+
+
+
+
+                        }
+
+
             }
 
-        } else {
-            if (xcor == 0) {
-                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor+1,ycor+1).occupiedBy() == Color.WHITE)
-                    return true;
-            } else if (xcor == 7) {
-                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor-1,ycor+1).occupiedBy() == Color.WHITE)
-                    return true;
-            } else {
-                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
-                        && board.getSquare(xcor-1, ycor+1).occupiedBy() == Color.WHITE
-                        && board.getSquare(xcor+1,ycor+1).occupiedBy() == Color.WHITE)
-                    return true;
-            }
-        }
+        return true;
 
-        return false;
     }
 
-    */
-
-    Color getGameResult() {
+    public Color getGameResult() {
         if (isFinished()) {
             if (whiteChess == 0 || getLastMove().getTo().getY() == 0)
                 return Color.BLACK;
@@ -415,4 +501,85 @@ public class Game {
 
         return board.getSquare(x,y);
     }
+
+    public Square[] getAllPawns() {
+        int size = (currentPlayer == Color.BLACK) ? blackChess : whiteChess;
+        Square[] pawns = new Square[size];
+        int count = 0;
+        for (int i = 0; i < 8; i++)
+            for (int r = 0; r < 8; r++)
+                if (board.getSquare(i, r).occupiedBy() == currentPlayer) {
+                    pawns[count] = board.getSquare(i, r);
+                    count++;
+                }
+
+        return pawns;
+    }
+
+    public boolean isTowardsGap(Square square) {
+        if (square.occupiedBy() == Color.NONE)
+            return false;
+        else if (square.occupiedBy() == Color.BLACK) {
+            for(int y = square.getY()-1;y >= 0; y--){
+                if(board.getSquare(square.getX(),y).occupiedBy() != Color.NONE)
+                    return false;
+            }
+
+            return true;
+        } else {
+            for(int y = square.getY()+1;y <= 7; y++){
+                if(board.getSquare(square.getX(),y).occupiedBy() != Color.NONE)
+                    return false;
+            }
+
+            return true;
+        }
+    }
+
 }
+
+
+/*
+    private boolean isBlocked(Square x) {
+        int xcor = x.getX();
+        int ycor = x.getY();
+
+        if (x.occupiedBy() == Color.NONE)
+            return false;
+        else if (x.occupiedBy() == Color.BLACK) {
+            if (xcor == 0) {
+                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor+1,ycor-1).occupiedBy() == Color.BLACK)
+                    return true;
+            } else if (xcor == 7) {
+                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor-1,ycor-1).occupiedBy() == Color.BLACK)
+                    return true;
+            } else {
+                if (board.getSquare(xcor,ycor-1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor-1, ycor-1).occupiedBy() == Color.BLACK
+                            && board.getSquare(xcor+1,ycor-1).occupiedBy() == Color.BLACK)
+                    return true;
+            }
+
+        } else {
+            if (xcor == 0) {
+                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor+1,ycor+1).occupiedBy() == Color.WHITE)
+                    return true;
+            } else if (xcor == 7) {
+                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor-1,ycor+1).occupiedBy() == Color.WHITE)
+                    return true;
+            } else {
+                if (board.getSquare(xcor,ycor+1).occupiedBy()!= Color.NONE
+                        && board.getSquare(xcor-1, ycor+1).occupiedBy() == Color.WHITE
+                        && board.getSquare(xcor+1,ycor+1).occupiedBy() == Color.WHITE)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    */
