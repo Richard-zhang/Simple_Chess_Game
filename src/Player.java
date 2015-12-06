@@ -98,9 +98,9 @@ public class Player {
                             if (board.getSquare(1, q - 1).occupiedBy() == Color.WHITE) {
                                 moves[count] = new Move(board.getSquare(i, q), board.getSquare(1, q - 1), true);
                                 count++;
-                            } else {
+                            } else if (board.getSquare(1, q - 1).occupiedBy() == Color.NONE){
                                 if (game.passingPawn() && game.getLastMove().getTo().getX() == 1
-                                        && game.getLastMove().getTo().getY() == 4) {
+                                        && game.getLastMove().getTo().getY() == q) {
                                     moves[count] = new Move(board.getSquare(i, q), board.getSquare(1, q - 1), true);
                                     count++;
                                 }
@@ -109,9 +109,9 @@ public class Player {
                             if (board.getSquare(6, q - 1).occupiedBy() == Color.WHITE) {
                                 moves[count] = new Move(board.getSquare(i, q), board.getSquare(6, q - 1), true);
                                 count++;
-                            } else {
+                            } else if (board.getSquare(6, q - 1).occupiedBy() == Color.NONE){
                                 if (game.passingPawn() && game.getLastMove().getTo().getX() == 6
-                                        && game.getLastMove().getTo().getY() == 4) {
+                                        && game.getLastMove().getTo().getY() == q) {
                                     moves[count] = new Move(board.getSquare(i, q), board.getSquare(6, q - 1), true);
                                     count++;
                                 }
@@ -127,17 +127,19 @@ public class Player {
                                 count++;
                             }
 
-                            if (game.passingPawn() && game.getLastMove().getTo().getX() == (i - 1)
-                                    && game.getLastMove().getTo().getY() == 4) {
-                                moves[count] = new Move(board.getSquare(i, q), board.getSquare(i - 1, q - 1), true);
-                                count++;
-                            }
+                            if(board.getSquare(i-1, q - 1).occupiedBy() == Color.NONE)
+                                if (game.passingPawn() && game.getLastMove().getTo().getX() == (i - 1)
+                                        && game.getLastMove().getTo().getY() == q) {
+                                    moves[count] = new Move(board.getSquare(i, q), board.getSquare(i - 1, q - 1), true);
+                                    count++;
+                                }
 
-                            if (game.passingPawn() && game.getLastMove().getTo().getX() == (i + 1)
-                                    && game.getLastMove().getTo().getY() == 4) {
-                                moves[count] = new Move(board.getSquare(i, q), board.getSquare(i + 1, q - 1), true);
-                                count++;
-                            }
+                            if(board.getSquare(i+1,q-1).occupiedBy() == Color.NONE)
+                                if (game.passingPawn() && game.getLastMove().getTo().getX() == (i + 1)
+                                        && game.getLastMove().getTo().getY() == q) {
+                                    moves[count] = new Move(board.getSquare(i, q), board.getSquare(i + 1, q - 1), true);
+                                    count++;
+                                }
 
                         }
 
@@ -166,9 +168,9 @@ public class Player {
                             if (board.getSquare(1, q + 1).occupiedBy() == Color.BLACK) {
                                 moves[count] = new Move(board.getSquare(i, q), board.getSquare(1, q + 1), true);
                                 count++;
-                            } else {
+                            } else if (board.getSquare(1, q + 1).occupiedBy() == Color.NONE){
                                 if (game.passingPawn() && game.getLastMove().getTo().getX() == 1
-                                        && game.getLastMove().getTo().getY() == 3) {
+                                        && game.getLastMove().getTo().getY() == q) {
                                     moves[count] = new Move(board.getSquare(i, q), board.getSquare(1, q + 1), true);
                                     count++;
                                 }
@@ -177,9 +179,9 @@ public class Player {
                             if (board.getSquare(6, q + 1).occupiedBy() == Color.BLACK) {
                                 moves[count] = new Move(board.getSquare(i, q), board.getSquare(6, q + 1), true);
                                 count++;
-                            } else {
+                            } else if (board.getSquare(6, q + 1).occupiedBy() == Color.NONE){
                                 if (game.passingPawn() && game.getLastMove().getTo().getX() == 6
-                                        && game.getLastMove().getTo().getY() == 3) {
+                                        && game.getLastMove().getTo().getY() == q) {
                                     moves[count] = new Move(board.getSquare(i, q), board.getSquare(6, q + 1), true);
                                     count++;
                                 }
@@ -195,17 +197,18 @@ public class Player {
                                 count++;
                             }
 
-                            if (game.passingPawn() && game.getLastMove().getTo().getX() == (i - 1)
-                                    && game.getLastMove().getTo().getY() == 3) {
-                                moves[count] = new Move(board.getSquare(i, q), board.getSquare(i - 1, q + 1), true);
-                                count++;
-                            }
-
-                            if (game.passingPawn() && game.getLastMove().getTo().getX() == (i + 1)
-                                    && game.getLastMove().getTo().getY() == 4) {
-                                moves[count] = new Move(board.getSquare(i, q), board.getSquare(i + 1, q + 1), true);
-                                count++;
-                            }
+                            if(board.getSquare(i-1, q - 1).occupiedBy() == Color.NONE)
+                                if (game.passingPawn() && game.getLastMove().getTo().getX() == (i - 1)
+                                        && game.getLastMove().getTo().getY() == q) {
+                                    moves[count] = new Move(board.getSquare(i, q), board.getSquare(i - 1, q + 1), true);
+                                    count++;
+                                }
+                            if(board.getSquare(i+1, q + 1).occupiedBy() == Color.NONE)
+                                if (game.passingPawn() && game.getLastMove().getTo().getX() == (i + 1)
+                                        && game.getLastMove().getTo().getY() == q) {
+                                    moves[count] = new Move(board.getSquare(i, q), board.getSquare(i + 1, q + 1), true);
+                                    count++;
+                                }
 
                         }
 
@@ -303,7 +306,7 @@ public class Player {
         for (Move m : moves) {
             if (m == null)
                 break;
-            if (m.isCapture() == true) {
+            if (m.isCapture()) {
                 System.out.println(color + " Played " + m.getSAN());
                 game.applyMove(m);
                 return;

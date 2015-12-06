@@ -7,8 +7,8 @@ public class Game {
     private Move[] moves = new Move[60];
     private Color currentPlayer = Color.WHITE;
     private Board board;
-    private int whiteChess = 7;
-    private int blackChess = 7;
+    public int whiteChess = 7;
+    public int blackChess = 7;
     public Game(Board board) {
         this.board = board;
     }
@@ -265,39 +265,42 @@ public class Game {
                             if(i==0){
                                 if(board.getSquare(1,q-1).occupiedBy() == Color.WHITE){
                                     return false;
-                                } else {
+                                } else if (board.getSquare(1,q-1).occupiedBy() == Color.NONE){
                                     if(passingPawn() && getLastMove().getTo().getX() == 1
-                                            && getLastMove().getTo().getY() == 4) {
+                                            && getLastMove().getTo().getY() == q) {
                                         return false;
                                     }
                                 }
                             } else if (i == 7) {
                                 if(board.getSquare(6,q-1).occupiedBy() == Color.WHITE){
                                     return false;
-                                } else {
+                                } else if (board.getSquare(6,q-1).occupiedBy() == Color.NONE){
                                     if(passingPawn() && getLastMove().getTo().getX() == 6
                                             && getLastMove().getTo().getY() == 4) {
                                         return false;
                                     }
                                 }
                             } else {
-                                if(board.getSquare(i-1,q-1).occupiedBy() == Color.WHITE) {
-                                    return false;
-                                }
 
-                                if(board.getSquare(i+1,q-1).occupiedBy() == Color.WHITE) {
-                                    return false;
-                                }
+                                    if (board.getSquare(i - 1, q - 1).occupiedBy() == Color.WHITE) {
+                                        return false;
+                                    }
 
-                                if(passingPawn() && getLastMove().getTo().getX() == (i-1)
-                                        && getLastMove().getTo().getY() == 4) {
-                                    return false;
-                                }
+                                    if (board.getSquare(i + 1, q - 1).occupiedBy() == Color.WHITE) {
+                                        return false;
+                                    }
 
-                                if(passingPawn() && getLastMove().getTo().getX() == (i+1)
-                                        && getLastMove().getTo().getY() == 4) {
-                                    return false;
-                                }
+                                    if (board.getSquare(i-1,q-1).occupiedBy() == Color.NONE)
+                                        if (passingPawn() && getLastMove().getTo().getX() == (i - 1)
+                                                && getLastMove().getTo().getY() == q) {
+                                            return false;
+                                        }
+
+                                    if (board.getSquare(i+1,q-1).occupiedBy() == Color.NONE)
+                                        if (passingPawn() && getLastMove().getTo().getX() == (i + 1)
+                                                && getLastMove().getTo().getY() == q) {
+                                            return false;
+                                        }
 
                             }
 
@@ -328,40 +331,41 @@ public class Game {
                                 if(board.getSquare(1,q+1).occupiedBy() == Color.BLACK){
                                     return false;
 
-                                } else {
+                                } else if(board.getSquare(1,q+1).occupiedBy() == Color.NONE) {
                                     if(passingPawn() && getLastMove().getTo().getX() == 1
-                                            && getLastMove().getTo().getY() == 3) {
+                                            && getLastMove().getTo().getY() == q) {
                                         return false;
                                     }
                                 }
                             } else if (i == 7) {
                                 if(board.getSquare(6,q+1).occupiedBy() == Color.BLACK){
                                     return false;
-                                } else {
+                                } else if(board.getSquare(1,q+1).occupiedBy() == Color.NONE) {
                                     if(passingPawn() && getLastMove().getTo().getX() == 6
-                                            && getLastMove().getTo().getY() == 3) {
+                                            && getLastMove().getTo().getY() == q) {
                                         return false;
                                     }
                                 }
                             } else {
-                                if(board.getSquare(i+1,q+1).occupiedBy() == Color.BLACK) {
-                                    return false;
-                                }
+                                    if(board.getSquare(i+1,q+1).occupiedBy() == Color.BLACK) {
+                                        return false;
+                                    }
 
-                                if(board.getSquare(i-1,q+1).occupiedBy() == Color.BLACK) {
-                                    return false;
-                                }
+                                    if(board.getSquare(i-1,q+1).occupiedBy() == Color.BLACK) {
+                                        return false;
+                                    }
+                                    if(board.getSquare(i-1,q+1).occupiedBy() == Color.NONE)
+                                        if(passingPawn() && getLastMove().getTo().getX() == (i-1)
+                                                && getLastMove().getTo().getY() == q) {
+                                            return false;
 
-                                if(passingPawn() && getLastMove().getTo().getX() == (i-1)
-                                        && getLastMove().getTo().getY() == 3) {
-                                    return false;
+                                        }
 
-                                }
-
-                                if(passingPawn() && getLastMove().getTo().getX() == (i+1)
-                                        && getLastMove().getTo().getY() == 4) {
-                                    return false;
-                                }
+                                    if(board.getSquare(i+1,q+1).occupiedBy() == Color.NONE)
+                                        if(passingPawn() && getLastMove().getTo().getX() == (i+1)
+                                                && getLastMove().getTo().getY() == q) {
+                                            return false;
+                                        }
 
                             }
 
@@ -427,6 +431,10 @@ public class Game {
                             return null;
                     }
                 */
+                if(passingPawn() && board.getSquare(start,3).occupiedBy() != Color.BLACK &&
+                        Math.abs(getLastMove().getTo().getX()-start) != 1)
+                    return null;
+
                 if (board.getSquare(start,ys+1).occupiedBy() == Color.BLACK)
                     return new Move(board.getSquare(start,ys+1),dest,isCapture);
 
@@ -439,6 +447,10 @@ public class Game {
                     return null;
 
                 if (!(start + 1 == xs || start - 1 == xs))
+                    return null;
+
+                if(passingPawn() && board.getSquare(start,4).occupiedBy() != Color.WHITE &&
+                        Math.abs(getLastMove().getTo().getX()-start) != 1)
                     return null;
 
                 if (board.getSquare(start,ys-1).occupiedBy() == Color.WHITE)

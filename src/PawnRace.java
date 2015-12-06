@@ -33,9 +33,10 @@ public class PawnRace {
         while(true) {
             if(game.getCurrentPlayer() == one.getColor()){
                 if(one.isComputerPlayer()){
+                    one.makeMove();
+                    System.out.println("WhiteChess :" + game.whiteChess + " " + "BlackChess :" + game.blackChess);
                     if (game.isFinished())
                         break;
-                    one.makeMove();
                     board.display();
 
                 } else {
@@ -45,16 +46,20 @@ public class PawnRace {
                     } while(game.parseMove(order) == null);
                     Move mmm = game.parseMove(order);
                     game.applyMove(mmm);
-
+                    System.out.println("WhiteChess :" + game.whiteChess + " " + "BlackChess :" + game.blackChess);
                     if (game.isFinished())
                         break;
                     board.display();
                 }
             } else {
                 if(two.isComputerPlayer()) {
+                    two.makeMove();
+
+                    System.out.println("WhiteChess :" + game.whiteChess + " " + "BlackChess :" + game.blackChess);
+
                     if(game.isFinished())
                         break;
-                    two.makeMove();
+
                     board.display();
                 } else {
                     do {
@@ -63,6 +68,8 @@ public class PawnRace {
                     } while(game.parseMove(order) == null);
 
                     game.applyMove(game.parseMove(order));
+                    System.out.println("WhiteChess :" + game.whiteChess + " " + "BlackChess :" + game.blackChess);
+
                     if(game.isFinished())
                         break;
                     board.display();
@@ -82,6 +89,7 @@ public class PawnRace {
         }
 
         System.out.println(game.counter);
+        System.out.println("WhiteChess :" + game.whiteChess + " " + "BlackChess :" + game.blackChess);
 
 
 
